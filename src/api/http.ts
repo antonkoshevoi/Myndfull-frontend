@@ -25,6 +25,9 @@ axiosInstance.interceptors.request.use(
             return { ...config, method: 'get', data: undefined };
 
         }
+        if (config.method === 'delete' && config.url === '/logout') {
+            return { ...config, method: 'get', data: {} };
+        }
         if (config.url && config.url.startsWith('/author')) {
             await handleAwait();
         }

@@ -23,7 +23,6 @@ const Profile = () => {
     const [concatenatedResult, serConcatenatedResult] = useState('');
     const [authorCompleted, setAuthorCompleted] = useState(false);
     const { token } = useToken();
-    console.log(token);
 
     useEffect(() => {
         const fetchProfileInfo = async () => {
