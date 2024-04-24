@@ -16,8 +16,12 @@ interface ProfileInfo {
 const Profile = () => {
     const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [complate, setComplate] = useState(0);
+    const [completeStep, setCompleteStep] = useState<number | null>(null);
+    const [isAuthorLoading, setIsAuthorLoading] = useState(false);
+    const [isQuoteLoading, setIsQuoteLoading] = useState(false);
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
+    const [concatenatedResult, serConcatenatedResult] = useState('');
+    const [authorCompleted, setAuthorCompleted] = useState(false);
     const { token } = useToken();
     console.log(token);
 
@@ -37,23 +41,40 @@ const Profile = () => {
     }, []);
 
     const handleRequestData = async () => {
+        const controller = new AbortController();
+        setAbortController(controller);
         try {
-            setIsLoading(true);
             setIsOpen(true);
-            const ctx = new AbortController();
+            setIsAuthorLoading(true);
+            setCompleteStep(1);
             const authorResponse = await axiosInstance.get(`/author?${token}`, {
-                signal: ctx.signal
+                signal: controller.signal
             });
-            const authorName = authorResponse.data.authorName;
-            const quoteResponse = await axiosInstance.get(`/quote?${token}`);
-            const quote = quoteResponse.data.quote;
-            setIsLoading(false);
-            console.log(authorName + ': ' + quote);
+            setIsAuthorLoading(false);
+            setAuthorCompleted(true);
+            setCompleteStep(2);
+            const authorName = authorResponse.data.data.name;
+            setIsQuoteLoading(true);
+            const quoteResponse = await axiosInstance.get(`/quote?${token}`, {
+                signal: controller.signal
+            });
+            setIsQuoteLoading(false);
+            const quote = quoteResponse.data.data.quote;
+            serConcatenatedResult(authorName + ' : ' + quote);
         } catch (error) {
-            setIsLoading(false);
             console.error('Error:', error);
+            setCompleteStep(null);
+            setIsAuthorLoading(false);
+            setIsQuoteLoading(false);
         }
     };
+
+    const handleCancelRequest = () => {
+        if (abortController) {
+            abortController.abort();
+        }
+    };
+
     return (
         <>
             <Helmet>
@@ -66,10 +87,15 @@ const Profile = () => {
                     <CustomBtn onClick={handleRequestData} text="Update" variant="contained"/>
                 </Box>
             </Box>
+            {concatenatedResult && <Typography mt={2} variant="h5">{concatenatedResult}</Typography>}
             <AlertModal
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                isLoading={isLoading}
+                completeStep={completeStep}
+                isAuthorLoading={isAuthorLoading}
+                isQuoteLoading={isQuoteLoading}
+                authorCompleted={authorCompleted}
+                handleCancelRequest={handleCancelRequest}
             />
         </>
     );

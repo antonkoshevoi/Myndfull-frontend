@@ -5,9 +5,6 @@
     },
     "success": true
   },
-  "users": [
-  ],
-  "tokens": [],
   "login": {
     "success": true,
     "data": {

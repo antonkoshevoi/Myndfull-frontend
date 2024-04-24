@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Box, Modal, Typography } from '@mui/material';
 import CustomBtn from 'components/CustomBtn';
 import LoadingDots from 'components/LoadingDots';
-import axiosInstance from 'api/http';
 
 interface IProps {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
-    isLoading: boolean;
+    completeStep: null | number;
+    isAuthorLoading: boolean;
+    isQuoteLoading: boolean;
+    handleCancelRequest: () => void;
+    authorCompleted: boolean;
 }
 
 const style = {
@@ -22,9 +25,15 @@ const style = {
     p: 4,
 };
 
-const AlertModal: FC<IProps> = ({ isOpen, setIsOpen, isLoading }) => {
-    const [isAuthorRequestCompleted, setIsAuthorRequestCompleted] = useState(false);
-    const [isQuoteRequestCompleted, setIsQuoteRequestCompleted] = useState(false);
+const AlertModal: FC<IProps> = ({
+                                    isOpen,
+                                    setIsOpen,
+                                    completeStep,
+                                    isQuoteLoading,
+                                    isAuthorLoading,
+                                    handleCancelRequest,
+                                    authorCompleted
+                                }) => {
 
     const handleClose = () => {
         setIsOpen(false);
@@ -43,14 +52,16 @@ const AlertModal: FC<IProps> = ({ isOpen, setIsOpen, isLoading }) => {
                         Requesting the quote
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Step 1: Requesting author {isLoading && !isAuthorRequestCompleted && <LoadingDots/>}
-                        {isAuthorRequestCompleted && 'Complete'}
+                        Step 1: Requesting
+                        author {!isAuthorLoading && completeStep === 1 || authorCompleted ? 'Complete' : isAuthorLoading ?
+                        <LoadingDots/> : ''}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Step 2: Requesting quote {isLoading && !isQuoteRequestCompleted && <LoadingDots/>}
-                        {isQuoteRequestCompleted && 'Complete'}
+                        Step 2: Requesting
+                        quote {!isQuoteLoading && completeStep === 2 ? 'Complete' : isQuoteLoading ?
+                        <LoadingDots/> : ''}
                     </Typography>
-                    <CustomBtn mt="10px" variant="contained" text="Cancel"/>
+                    <CustomBtn onClick={handleCancelRequest} mt="10px" variant="contained" text="Cancel"/>
                 </Box>
             </Modal>
         </React.Fragment>

@@ -20,8 +20,11 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         }
     }, []);
 
-    const storeToken: SetToken = (newToken) => {
+    useEffect(() => {
         localStorage.setItem('token', token);
+    }, [token]);
+
+    const storeToken: SetToken = (newToken) => {
         setToken(newToken);
     };
 

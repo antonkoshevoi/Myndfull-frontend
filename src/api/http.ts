@@ -25,8 +25,12 @@ axiosInstance.interceptors.request.use(
             return { ...config, method: 'get', data: undefined };
 
         }
-        await handleAwait();
-
+        if (config.url && config.url.startsWith('/author')) {
+            await handleAwait();
+        }
+        if (config.url && config.url.startsWith('/quote')) {
+            await handleAwait();
+        }
         return config;
     },
     (error) => {
