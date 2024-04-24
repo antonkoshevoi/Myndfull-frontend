@@ -8,14 +8,19 @@ interface IProps {
     variant: variant,
     text: string,
     href?: string
+    onClick?: () => Promise<void> | void
 }
 
-const CustomBtn: FC<IProps> = ({ mt, variant, text, href }) => {
+const CustomBtn: FC<IProps> = ({ mt, variant, text, href, onClick }) => {
     return (
         <Button
             sx={{ marginTop: `${mt || 0}`, textTransform: 'capitalize' }}
             href={href}
-            variant={variant}>{text}</Button>
+            variant={variant}
+            onClick={onClick}
+        >
+            {text}
+        </Button>
     );
 };
 
