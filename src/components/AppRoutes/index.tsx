@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import AboutPage from "pages/About";
 import SignIn from "pages/SignIn";
 import Profile from "pages/Profile";
@@ -45,13 +50,11 @@ const AppRoutes = () => {
       </Stack>
       <Routes>
         {!token ? (
-          <>
-            <Route path="/" element={<AboutPage />} />
-            <Route path="/signin" element={<SignIn />} />
-          </>
+          <Route path="/signin" element={<SignIn />} />
         ) : (
           <Route path="/profile" element={<Profile />} />
         )}
+        <Route path="/" element={<AboutPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

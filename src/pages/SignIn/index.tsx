@@ -9,10 +9,20 @@ import { useToken } from "context";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
   const { setToken } = useToken();
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      setError(true);
+      return;
+    }
+    setError(false);
     try {
       const response = await axiosInstance.post("/login", {
         email: email,
@@ -43,7 +53,12 @@ const SignIn = () => {
             hiddenLabel
             size="small"
             id="email"
-            helperText="We'll never share your email with anyone else."
+            error={error}
+            helperText={
+              error
+                ? "Enter a valid email address"
+                : "We'll never share your email with anyone else."
+            }
             variant="outlined"
             placeholder="Enter email"
             onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +67,7 @@ const SignIn = () => {
         <Grid item>
           <Typography>Password</Typography>
           <TextField
+            type="password"
             fullWidth
             hiddenLabel
             size="small"
