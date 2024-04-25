@@ -1,0 +1,58 @@
+{
+	"semi": true,
+	"tabWidth": 4,
+	"useTabs": true,
+	"printWidth": 120,
+	"trailingComma": "es5",
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"singleAttributePerLine": true,
+
+	"importOrder": [
+		"react",
+		"react-i18next",
+		"@?i18n",
+
+		"^axios",
+		"qs",
+		"csstype",
+
+		"^@?reduxjs",
+
+		"^[./]{0,3}store(.*)$",
+
+		"^hooks(.*)$",
+		"^[./]{0,3}hooks(.*)$",
+
+		"^[./]{0,3}helper(.*)$",
+		"^[./]{0,3}utils(.*)$",
+
+		"^configs(.*)$",
+		"^[./]{0,3}configs(.*)$",
+
+		"^types(.*)$",
+		"^[./]{0,3}types(.*)$",
+
+		"^[./]{0,3}storage(.*)$",
+		"^[./]{0,3}exceptions(.*)$",
+		"^[./]{0,3}contexts(.*)$",
+		"^[./]{0,3}appWrappers(.*)$",
+
+		"^components(.*)",
+		"^pages(.*)",
+
+		"^[./]",
+
+		"^@?dayjs(.*)$",
+		"yup",
+		"antd",
+		"^@?ant(.*)$",
+
+		".*"
+	],
+	"importOrderSeparation": false,
+	"importOrderSortSpecifiers": true,
+	"plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

@@ -1,14 +1,14 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import AppRoutes from 'components/AppRoutes';
+import AppRoutes from "components/AppRoutes";
 
 function App() {
-    return (
-        <div className="App">
-            <AppRoutes/>
-        </div>
-    );
+  return (
+    <div className="App">
+      <AppRoutes />
+    </div>
+  );
 }
 
 export default App;

@@ -16,6 +16,7 @@
     "@types/react-dom": "^18.2.25",
     "axios": "^1.6.8",
     "json-server": "^1.0.0-alpha.23",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -28,6 +29,7 @@
     "start": "concurrently \"npm run start-react\" \"npm run start-server\"",
     "start-react": "react-scripts start",
     "start-server": "json-server --watch db.json --port 3001",
+    "prettier-fix": "prettier --write ./src",
     "build": "react-scripts build",
     "test": "cypress open",
     "eject": "react-scripts eject"
