@@ -5,35 +5,39 @@ import CustomBtn from "components/CustomBtn";
 import axiosInstance from "api/http";
 import { useNavigate } from "react-router-dom";
 import { useToken } from "context";
+import { validateEmail } from "utils/validateEmail";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { setToken } = useToken();
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
 
   const handleLogin = async () => {
     if (!validateEmail(email)) {
       setError(true);
+      setErrorMessage("Enter a valid email address");
       return;
     }
+
     setError(false);
+
     try {
       const response = await axiosInstance.post("/login", {
         email: email,
         password: password,
       });
+
       if (response.data.success) {
         const token = response.data.data.token;
         setToken(token);
         navigate("/profile");
       } else {
-        console.error("Login failed:", response.data.error);
+        setError(true);
+        setErrorMessage(response.data.data.message);
+        console.error("Login failed:", response.data.data.message);
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -56,7 +60,7 @@ const SignIn = () => {
             error={error}
             helperText={
               error
-                ? "Enter a valid email address"
+                ? errorMessage
                 : "We'll never share your email with anyone else."
             }
             variant="outlined"

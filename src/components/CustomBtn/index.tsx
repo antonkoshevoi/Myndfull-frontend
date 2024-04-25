@@ -14,13 +14,14 @@ interface IProps {
 
 const CustomBtn: FC<IProps> = ({ mt, variant, text, path, onClick }) => {
   const navigate = useNavigate();
+
   const handleClick = () => {
-    if (onClick) {
-      onClick();
-    }
+    if (onClick) onClick();
+
     if (!path) return;
     navigate(path);
   };
+
   return (
     <Button
       sx={{ marginTop: `${mt || 0}`, textTransform: "capitalize" }}

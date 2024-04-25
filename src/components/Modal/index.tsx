@@ -57,7 +57,7 @@ const AlertModal: FC<IProps> = ({
             onClick={handleClose}
             mt="10px"
             variant="contained"
-            text="Cancel"
+            text={completeStep > 1 ? "Close" : "Cancel"}
           />
         </Box>
       </Modal>

@@ -21,7 +21,7 @@ const AppRoutes = () => {
     if (!token) return;
     try {
       const response = await axiosInstance.delete("/logout");
-      if (response.status === 200 && response.data.success) {
+      if (response.data.success) {
         setToken("");
         localStorage.removeItem("token");
       }
@@ -34,11 +34,11 @@ const AppRoutes = () => {
     <Router>
       <Stack mt={2} spacing={1} direction="row">
         <CustomBtn variant="outlined" text="About us" path="/" />
-        {token ? (
-          <CustomBtn variant="outlined" text="Profile" path="/profile" />
-        ) : (
-          <CustomBtn variant="outlined" text="Sign in" path="/signin" />
-        )}
+        <CustomBtn
+          variant="outlined"
+          text={token ? "Profile" : "Sign in"}
+          path={token ? "/profile" : "/signin"}
+        />
         {token && (
           <CustomBtn
             onClick={handleSignOut}
